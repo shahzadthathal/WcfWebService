@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="vehicle_navigationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="vehicle_navigationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ride_detail" EntityType="vehicle_navigationModel.ride_detail" />
+    <EntitySet Name="users" EntityType="vehicle_navigationModel.user" />
+    <EntitySet Name="vehicles" EntityType="vehicle_navigationModel.vehicle" />
+    <AssociationSet Name="FK__vehicle__userId__1273C1CD" Association="vehicle_navigationModel.FK__vehicle__userId__1273C1CD">
+      <End Role="user" EntitySet="users" />
+      <End Role="vehicle" EntitySet="vehicles" />
+    </AssociationSet>
+    <FunctionImport Name="GetNearestDrivers" ReturnType="Collection(vehicle_navigationModel.GetNearestDrivers_Result)">
+      <Parameter Name="orig_lat" Mode="In" Type="Decimal" />
+      <Parameter Name="orig_long" Mode="In" Type="Decimal" />
+      <Parameter Name="bounding_distance" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="ride_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="passengerID" Type="Int32" Nullable="false" />
+    <Property Name="driverID" Type="Int32" Nullable="false" />
+    <Property Name="from_destination" Type="Int32" Nullable="false" />
+    <Property Name="to_destination" Type="Int32" Nullable="false" />
+    <Property Name="from_lat" Type="Int32" />
+    <Property Name="from_lng" Type="Int32" />
+    <Property Name="to_lat" Type="Int32" />
+    <Property Name="to_lng" Type="Int32" />
+    <Property Name="reserve_date_start" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="reserve_date_end" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="created_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="total_miles" Type="Int32" Nullable="false" />
+    <Property Name="amount" Type="Double" Nullable="false" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="nic" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="userType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="street" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="lat" Type="Double" />
+    <Property Name="lng" Type="Double" />
+    <Property Name="is_login" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="is_vehicle_added" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="vehicles" Relationship="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" FromRole="user" ToRole="vehicle" />
+  </EntityType>
+  <EntityType Name="vehicle">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="model_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="manufacturer_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="year_name" Type="Int32" />
+    <Property Name="ownerId" Type="Int32" />
+    <NavigationProperty Name="user" Relationship="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" FromRole="vehicle" ToRole="user" />
+  </EntityType>
+  <Association Name="FK__vehicle__userId__1273C1CD">
+    <End Type="vehicle_navigationModel.user" Role="user" Multiplicity="0..1" />
+    <End Type="vehicle_navigationModel.vehicle" Role="vehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="vehicle">
+        <PropertyRef Name="ownerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetNearestDrivers_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="email" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="password" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="phone" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="nic" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="userType" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="street" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="city" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="country" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="lat" Nullable="true" />
+    <Property Type="Double" Name="lng" Nullable="true" />
+    <Property Type="String" Name="is_login" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="is_vehicle_added" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="reg_id" Nullable="true" MaxLength="255" />
+    <Property Type="Double" Name="distance" Nullable="true" />
+  </ComplexType>
+</Schema>

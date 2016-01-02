@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="vehicle_navigationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ride_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="passengerID" Type="int" Nullable="false" />
+    <Property Name="driverID" Type="int" Nullable="false" />
+    <Property Name="from_destination" Type="int" Nullable="false" />
+    <Property Name="to_destination" Type="int" Nullable="false" />
+    <Property Name="from_lat" Type="int" />
+    <Property Name="from_lng" Type="int" />
+    <Property Name="to_lat" Type="int" />
+    <Property Name="to_lng" Type="int" />
+    <Property Name="reserve_date_start" Type="datetime" Nullable="false" />
+    <Property Name="reserve_date_end" Type="datetime" Nullable="false" />
+    <Property Name="created_date" Type="datetime" Nullable="false" />
+    <Property Name="total_miles" Type="int" Nullable="false" />
+    <Property Name="amount" Type="float" Nullable="false" />
+    <Property Name="status" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="phone" Type="nvarchar" MaxLength="30" />
+    <Property Name="nic" Type="nvarchar" MaxLength="30" />
+    <Property Name="userType" Type="nvarchar" MaxLength="20" />
+    <Property Name="street" Type="nvarchar" MaxLength="50" />
+    <Property Name="city" Type="nvarchar" MaxLength="50" />
+    <Property Name="country" Type="nvarchar" MaxLength="50" />
+    <Property Name="lat" Type="float" />
+    <Property Name="lng" Type="float" />
+    <Property Name="is_login" Type="nchar" MaxLength="10" />
+    <Property Name="is_vehicle_added" Type="nchar" MaxLength="10" />
+    <Property Name="reg_id" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="vehicle">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+    <Property Name="model_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="manufacturer_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="year_name" Type="int" />
+    <Property Name="ownerId" Type="int" />
+  </EntityType>
+  <Association Name="FK__vehicle__userId__1273C1CD">
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
+    <End Role="vehicle" Type="Self.vehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="vehicle">
+        <PropertyRef Name="ownerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetNearestDrivers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orig_lat" Type="decimal" Mode="In" />
+    <Parameter Name="orig_long" Type="decimal" Mode="In" />
+    <Parameter Name="bounding_distance" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="vehicle_navigationModelStoreContainer">
+    <EntitySet Name="ride_detail" EntityType="Self.ride_detail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vehicle" EntityType="Self.vehicle" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__vehicle__userId__1273C1CD" Association="Self.FK__vehicle__userId__1273C1CD">
+      <End Role="users" EntitySet="users" />
+      <End Role="vehicle" EntitySet="vehicle" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

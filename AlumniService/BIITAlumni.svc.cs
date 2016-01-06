@@ -25,16 +25,16 @@ namespace AlumniService
        public ReturnUserData Authenticate(string email, string password)
        {
            
-           // var usr = (from c in db.users where c.id == userid select c).First();
-
+           
            ReturnUserData returnUserData;
 
-           //returnUserData = new ReturnUserData { isError = "1", errorMessage = "Invalid credentinals" };
+           var usr = db.users.Where(u => u.email == email && u.password == password).FirstOrDefault();
 
-           var usr = (from u in db.users where u.email.Equals(email) && u.password.Equals(password) select u).First();
+           //var usr = (from u in db.users where u.email.Equals(email) && u.password.Equals(password) select u).First();
+          
            if (usr != null)
            {
-               returnUserData = new ReturnUserData { isError = "0", errorMessage = null, id = usr.id.ToString(), name = usr.name, email = usr.email, password = usr.password, phone = usr.phone, userType = usr.userType, street = usr.street, city = usr.city, country = usr.country, lat = "333.5555", lng = "79.5554", is_login = "yes", is_vehicle_added = "no", reg_id = "asdfa1234asdfdf", nic = "5555" };
+               returnUserData = new ReturnUserData { isError = "0", errorMessage = null, id = usr.id.ToString(), name = usr.name, email = usr.email, password = usr.password, phone = usr.phone, userType = usr.userType, street = usr.street, city = usr.city, country = usr.country, lat = usr.lat.ToString(), lng = usr.lng.ToString(), is_login = "yes", is_vehicle_added = usr.is_vehicle_added, reg_id = "asdfa1234asdfdf", nic = "5555" };
            }
            else
            {
@@ -90,13 +90,10 @@ namespace AlumniService
 
        public ReturnVehicleData SaveVehicle(string name, string modelName, string manufacturer_name, string ownerId) 
        {
-           int userid = Convert.ToInt32(ownerId);
-           /*var u = (from c in db.vehicles where c.ownerId == userid select c).First();
-           if (u) 
-           {
-           }
-           else
-           {*/
+               int userid = Convert.ToInt32(ownerId);
+
+               var usr = (from c in db.users where c.id == userid select c).First();
+
                vehicle v = new vehicle();
                v.name = name;
                v.model_name = modelName;
@@ -104,12 +101,37 @@ namespace AlumniService
                v.ownerId = userid;
                db.vehicles.Add(v);
                db.SaveChanges();
+
+               usr.is_vehicle_added = "yes";
+               db.SaveChanges();
+
                string uid = v.ownerId.ToString();
                ReturnVehicleData returnVehicleData = new ReturnVehicleData { id = uid, name = v.name, model_name = v.model_name, manufacturer_name = v.manufacturer_name, ownerId = uid };
                return returnVehicleData;
            //}
        }
 
+
+       public ReturnVehicleData UpdateVehicle(string vid, string name, string modelName, string manufacturer_name, string ownerId)
+       {
+           int id = Convert.ToInt32(vid);
+           var vm = (from c in db.vehicles where c.id == id select c).First(); //AND c.ownerId = userid
+           vm.name = name;
+           vm.model_name = modelName;
+           vm.manufacturer_name = manufacturer_name;
+           db.SaveChanges();
+           ReturnVehicleData returnVehicleData = new ReturnVehicleData { id = id.ToString(), name = vm.name, model_name = vm.model_name, manufacturer_name = vm.manufacturer_name, ownerId = vm.ownerId.ToString() };
+           return returnVehicleData;
+       }
+
+
+       public ReturnVehicleData GetVehicleDetail(string userid)
+       {
+           int ownerId = Convert.ToInt32(userid);
+           var vm = db.vehicles.Where(v => v.ownerId == ownerId).FirstOrDefault();          
+           ReturnVehicleData returnVehicleData = new ReturnVehicleData { id = vm.id.ToString(), name = vm.name, model_name = vm.model_name, manufacturer_name = vm.manufacturer_name, ownerId = vm.ownerId.ToString() };
+           return returnVehicleData;
+       }
 
 
        /*public user Register(string name, string email, string password, string phone, string nic, string userType)

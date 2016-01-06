@@ -38,11 +38,25 @@ namespace AlumniService
 
         [OperationContract]
         [WebInvoke(Method = "GET",
-            UriTemplate = "/SaveVehicle/{name}/{model_name}/{manufacturer_name}/{ownerId}",
+            UriTemplate = "/AddVehicle/{name}/{model_name}/{manufacturer_name}/{ownerId}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         ReturnVehicleData SaveVehicle(string name, string model_name, string manufacturer_name, string ownerId);
 
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/UpdateVehicle/{id}/{name}/{model_name}/{manufacturer_name}/{ownerId}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnVehicleData UpdateVehicle(string id, string name, string model_name, string manufacturer_name, string ownerId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+             UriTemplate = "/GetVehicleDetail/{userid}",
+             RequestFormat = WebMessageFormat.Json,
+             ResponseFormat = WebMessageFormat.Json)]
+        ReturnVehicleData GetVehicleDetail(string userid);
 
 
 
@@ -52,6 +66,8 @@ namespace AlumniService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         List<Driver> GetDrivers(string fromlat, string fromlng);
+
+
 
         [OperationContract]
         [WebInvoke(Method = "POST",

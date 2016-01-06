@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="IBIITAlumni.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReturnRideData.cs" />
     <Compile Include="ReturnUserData.cs" />
     <Compile Include="ReturnVehicleData.cs" />
     <Compile Include="ride_detail.cs">

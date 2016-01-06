@@ -22,6 +22,34 @@ namespace AlumniService
         }
       */
 
+
+        public ReturnRideData AddRide(string passengerID, string driverID, string from_destination, string to_destination, string from_lat, string from_lng, string to_lat, string to_lng)
+        {
+            int pID = Convert.ToInt32(passengerID); // passenger
+            int dID = Convert.ToInt32(driverID); //driver
+
+            ride_detail rd = new ride_detail();
+            rd.passengerID = pID;
+            rd.driverID = dID;
+            rd.from_destination = from_destination;
+            rd.to_destination = to_destination;
+            rd.from_lat = Convert.ToDouble(from_lat);
+            rd.from_lng = Convert.ToDouble(from_lat);
+            rd.to_lat = Convert.ToDouble(from_lat);
+            rd.to_lng = Convert.ToDouble(from_lat);
+            rd.status = 0;
+            db.SaveChanges();
+            string rid = rd.id.ToString(); //ride id
+            string rpid = rd.passengerID.ToString(); // passengerID
+            string rdid = rd.driverID.ToString(); //driverID
+            ReturnRideData returnRideData = new ReturnRideData { id = rid, passengerID = rpid, driverID = rdid, from_destination = rd.from_destination, to_destination = rd.to_destination, from_lat = rd.from_lat.ToString(), from_lng = rd.from_lng.ToString(), to_lat = rd.to_lat.ToString(), to_lng = rd.to_lng.ToString(), status = rd.status.ToString() };
+            return returnRideData;
+            
+        }
+
+
+
+
        public ReturnUserData Authenticate(string email, string password)
        {
            
@@ -83,7 +111,7 @@ namespace AlumniService
            db.SaveChanges();
            // return u;
            string uid = usr.id.ToString();
-           ReturnUserData returnUserData = new ReturnUserData { isError = "0", errorMessage = null, id = uid, name = usr.name, email = usr.email, password = usr.password, phone = usr.phone, userType = usr.userType, street = usr.street, city = usr.city, country = usr.country, lat = "333.5555", lng = "79.5554", is_login = "yes", is_vehicle_added = "no", reg_id = "asdfa1234asdfdf", nic = "5555" };
+           ReturnUserData returnUserData = new ReturnUserData { isError = "0", errorMessage = null, id = uid, name = usr.name, email = usr.email, password = usr.password, phone = usr.phone, userType = usr.userType, street = usr.street, city = usr.city, country = usr.country, lat = usr.lat.ToString(), lng =usr.lng.ToString(), is_login = "yes", is_vehicle_added = "no", reg_id = "asdfa1234asdfdf", nic = "5555" };
           // ReturnUserData returnUserData = new ReturnUserData { isError = "0", errorMessage = null, id = uid, name = "ShahzadAhmed", email = "shahzad@app.com", password = "123456", phone = "3016973691", userType = "Passenger", street = "street104", city = "Isb", country = "Paksitan", lat = "33.5555", lng = "79.5554", is_login = "yes", is_vehicle_added = "no", reg_id = "asdfa1234asdfdf", nic = "5555" };
            return returnUserData;
        }

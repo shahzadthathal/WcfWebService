@@ -13,6 +13,16 @@ namespace AlumniService
     public interface IBIITAlumni
     {
 
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/AddRide/{passengerID}/{driverID}/{from_destination}/{to_destination}/{from_lat}/{from_lng}/{to_lat}/{to_lng}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnRideData AddRide(string passengerID, string driverID, string from_destination, string to_destination, string from_lat, string from_lng, string to_lat, string to_lng);
+
+
+
         [OperationContract]
         [WebInvoke(Method ="GET", 
             UriTemplate ="/Authenticate/{email}/{password}",
@@ -57,8 +67,6 @@ namespace AlumniService
              RequestFormat = WebMessageFormat.Json,
              ResponseFormat = WebMessageFormat.Json)]
         ReturnVehicleData GetVehicleDetail(string userid);
-
-
 
         [OperationContract]
         [WebInvoke(Method = "GET",

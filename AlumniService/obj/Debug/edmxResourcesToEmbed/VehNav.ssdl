@@ -7,18 +7,18 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="passengerID" Type="int" Nullable="false" />
     <Property Name="driverID" Type="int" Nullable="false" />
-    <Property Name="from_destination" Type="int" Nullable="false" />
-    <Property Name="to_destination" Type="int" Nullable="false" />
-    <Property Name="from_lat" Type="int" />
-    <Property Name="from_lng" Type="int" />
-    <Property Name="to_lat" Type="int" />
-    <Property Name="to_lng" Type="int" />
-    <Property Name="reserve_date_start" Type="datetime" Nullable="false" />
-    <Property Name="reserve_date_end" Type="datetime" Nullable="false" />
+    <Property Name="from_destination" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="to_destination" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="from_lat" Type="float" />
+    <Property Name="from_lng" Type="float" />
+    <Property Name="to_lat" Type="float" />
+    <Property Name="to_lng" Type="float" />
+    <Property Name="reserve_date_start" Type="datetime" />
+    <Property Name="reserve_date_end" Type="datetime" />
     <Property Name="created_date" Type="datetime" Nullable="false" />
-    <Property Name="total_miles" Type="int" Nullable="false" />
-    <Property Name="amount" Type="float" Nullable="false" />
-    <Property Name="status" Type="nvarchar" MaxLength="50" />
+    <Property Name="total_miles" Type="int" />
+    <Property Name="amount" Type="float" />
+    <Property Name="status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="users">
     <Key>

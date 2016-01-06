@@ -17,17 +17,17 @@ namespace AlumniService
         public int id { get; set; }
         public int passengerID { get; set; }
         public int driverID { get; set; }
-        public int from_destination { get; set; }
-        public int to_destination { get; set; }
-        public Nullable<int> from_lat { get; set; }
-        public Nullable<int> from_lng { get; set; }
-        public Nullable<int> to_lat { get; set; }
-        public Nullable<int> to_lng { get; set; }
-        public System.DateTime reserve_date_start { get; set; }
-        public System.DateTime reserve_date_end { get; set; }
+        public string from_destination { get; set; }
+        public string to_destination { get; set; }
+        public Nullable<double> from_lat { get; set; }
+        public Nullable<double> from_lng { get; set; }
+        public Nullable<double> to_lat { get; set; }
+        public Nullable<double> to_lng { get; set; }
+        public Nullable<System.DateTime> reserve_date_start { get; set; }
+        public Nullable<System.DateTime> reserve_date_end { get; set; }
         public System.DateTime created_date { get; set; }
-        public int total_miles { get; set; }
-        public double amount { get; set; }
-        public string status { get; set; }
+        public Nullable<int> total_miles { get; set; }
+        public Nullable<double> amount { get; set; }
+        public int status { get; set; }
     }
 }

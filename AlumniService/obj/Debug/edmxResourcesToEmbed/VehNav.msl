@@ -1,6 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="vehicle_navigationModelStoreContainer" CdmEntityContainer="vehicle_navigationEntities">
+    <FunctionImportMapping FunctionImportName="GetNearestDrivers" FunctionName="vehicle_navigationModel.Store.GetNearestDrivers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="vehicle_navigationModel.GetNearestDrivers_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="nic" ColumnName="nic" />
+          <ScalarProperty Name="userType" ColumnName="userType" />
+          <ScalarProperty Name="street" ColumnName="street" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="country" ColumnName="country" />
+          <ScalarProperty Name="lat" ColumnName="lat" />
+          <ScalarProperty Name="lng" ColumnName="lng" />
+          <ScalarProperty Name="is_login" ColumnName="is_login" />
+          <ScalarProperty Name="is_vehicle_added" ColumnName="is_vehicle_added" />
+          <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+          <ScalarProperty Name="distance" ColumnName="distance" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <EntitySetMapping Name="ride_detail">
       <EntityTypeMapping TypeName="vehicle_navigationModel.ride_detail">
         <MappingFragment StoreEntitySet="ride_detail">
@@ -55,27 +77,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="GetNearestDrivers" FunctionName="vehicle_navigationModel.Store.GetNearestDrivers">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="vehicle_navigationModel.GetNearestDrivers_Result">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="phone" ColumnName="phone" />
-          <ScalarProperty Name="nic" ColumnName="nic" />
-          <ScalarProperty Name="userType" ColumnName="userType" />
-          <ScalarProperty Name="street" ColumnName="street" />
-          <ScalarProperty Name="city" ColumnName="city" />
-          <ScalarProperty Name="country" ColumnName="country" />
-          <ScalarProperty Name="lat" ColumnName="lat" />
-          <ScalarProperty Name="lng" ColumnName="lng" />
-          <ScalarProperty Name="is_login" ColumnName="is_login" />
-          <ScalarProperty Name="is_vehicle_added" ColumnName="is_vehicle_added" />
-          <ScalarProperty Name="reg_id" ColumnName="reg_id" />
-          <ScalarProperty Name="distance" ColumnName="distance" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

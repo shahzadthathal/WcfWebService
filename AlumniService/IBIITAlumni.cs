@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -15,22 +16,20 @@ namespace AlumniService
 
 
         [OperationContract]
-        [WebInvoke(Method = "GET",
-            UriTemplate = "/AddRide/{passengerID}/{driverID}/{from_destination}/{to_destination}/{from_lat}/{from_lng}/{to_lat}/{to_lng}",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json)]
-        ReturnRideData AddRide(string passengerID, string driverID, string from_destination, string to_destination, string from_lat, string from_lng, string to_lat, string to_lng);
-
-
-
-        [OperationContract]
         [WebInvoke(Method ="GET", 
             UriTemplate ="/Authenticate/{email}/{password}",
             RequestFormat = WebMessageFormat.Json, 
             ResponseFormat = WebMessageFormat.Json)]
-       // user Authenticate(string email, string password);
         ReturnUserData Authenticate(string email, string password);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/Logout/{userid}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        bool Logout(string userid);
+
+        
         [OperationContract]
         [WebInvoke(Method = "GET",
             UriTemplate = "/Register/{name}/{email}/{password}/{phone}/{nic}/{userType}",
@@ -76,6 +75,40 @@ namespace AlumniService
         List<Driver> GetDrivers(string fromlat, string fromlng);
 
 
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/AddRide/{passengerID}/{driverID}/{from_destination}/{to_destination}/{from_lat}/{from_lng}/{to_lat}/{to_lng}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnRideData AddRide(string passengerID, string driverID, string from_destination, string to_destination, string from_lat, string from_lng, string to_lat, string to_lng);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/CheckNewRide/{userId}/{userType}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnRideData CheckNewRide(string userId, string userType);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/ChangeRideStatus/{rideId}/{userId}/{status}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnRideData ChangeRideStatus(string rideId, string userId, string status);
+
+
+        
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/GetAllRides/{userId}/{userType}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        List<ReturnRideData> GetAllRides(string userId, string userType);
+
+
+
+      
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -83,6 +116,7 @@ namespace AlumniService
             RequestFormat = WebMessageFormat.Json, 
             ResponseFormat = WebMessageFormat.Json)]
         bool SignUp(user user);
+        
     }
 
 }

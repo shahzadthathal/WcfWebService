@@ -31,9 +31,10 @@ namespace AlumniService
         public string country { get; set; }
         public Nullable<double> lat { get; set; }
         public Nullable<double> lng { get; set; }
-        public string is_login { get; set; }
-        public string is_vehicle_added { get; set; }
+        public Nullable<int> is_login { get; set; }
+        public Nullable<int> is_vehicle_added { get; set; }
         public string reg_id { get; set; }
+        public Nullable<int> is_available { get; set; }
     
         public virtual ICollection<vehicle> vehicles { get; set; }
     }

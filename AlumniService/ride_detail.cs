@@ -29,5 +29,7 @@ namespace AlumniService
         public Nullable<int> total_miles { get; set; }
         public Nullable<double> amount { get; set; }
         public int status { get; set; }
+        public string review { get; set; }
+        public Nullable<double> rating { get; set; }
     }
 }

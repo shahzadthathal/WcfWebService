@@ -19,6 +19,8 @@
     <Property Name="total_miles" Type="int" />
     <Property Name="amount" Type="float" />
     <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="review" Type="nvarchar" MaxLength="150" />
+    <Property Name="rating" Type="float" />
   </EntityType>
   <EntityType Name="users">
     <Key>

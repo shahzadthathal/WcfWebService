@@ -25,5 +25,11 @@ namespace AlumniService
 
         public string message { get; set; }
 
+        public string amount { get; set; }
+
+        public string review { get; set; }
+
+        public string rating { get; set; }
+
     }
 }

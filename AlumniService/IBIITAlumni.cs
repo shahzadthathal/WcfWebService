@@ -96,8 +96,17 @@ namespace AlumniService
             ResponseFormat = WebMessageFormat.Json)]
         ReturnRideData ChangeRideStatus(string rideId, string userId, string status);
 
+        
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/FinishRide/{rideId}/{amount}/{review}/{rating}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnRideData FinishRide(string rideId, string amount, string review, string rating);
 
         
+
+
 
         [OperationContract]
         [WebInvoke(Method = "GET",

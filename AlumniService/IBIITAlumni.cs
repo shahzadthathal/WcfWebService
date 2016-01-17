@@ -24,18 +24,36 @@ namespace AlumniService
 
         [OperationContract]
         [WebInvoke(Method = "GET",
-            UriTemplate = "/Logout/{userid}",
+            UriTemplate = "/logout/{userid}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         bool Logout(string userid);
 
-        
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/ForgotPassword/{email}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        bool ForgotPassword(string email);
+
+
         [OperationContract]
         [WebInvoke(Method = "GET",
             UriTemplate = "/Register/{name}/{email}/{password}/{phone}/{nic}/{userType}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         ReturnUserData Register(string name, string email, string password, string phone, string nic, string userType);
+
+        
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            UriTemplate = "/UpdateProfile/{userid}/{name}/{email}/{password}/{phone}/{nic}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnUserData UpdateProfile(string userid, string name, string email, string password, string phone, string nic);
+
+        
 
         [OperationContract]
         [WebInvoke(Method = "GET",

@@ -22,6 +22,10 @@ namespace AlumniService
          public string phone { get; set; }
          public string distance { get; set; }
 
+         public string rating { get; set; }
+         public string image { get; set; }
+
+
 
     }
 }

@@ -12,11 +12,34 @@ using System.Web;
 
 namespace AlumniService
 {
+
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class BIITAlumni : IBIITAlumni
     {
         vehicle_navigationEntities db = new vehicle_navigationEntities();
+
+
+
+        public void FileUpload(string fileName, Stream fileStream)
+        {
+            string path = "C:\\Users\\shahzad\\Documents\\Visual Studio 2013\\Projects\\AlumniService";
+            FileStream fileToupload = new FileStream(path + fileName, FileMode.Create);
+
+            byte[] bytearray = new byte[10000];
+            int bytesRead, totalBytesRead = 0;
+            do
+            {
+                bytesRead = fileStream.Read(bytearray, 0, bytearray.Length);
+                totalBytesRead += bytesRead;
+            } while (bytesRead > 0);
+
+            fileToupload.Write(bytearray, 0, bytearray.Length);
+            fileToupload.Close();
+            fileToupload.Dispose();
+
+        }      
+
 
 
         public bool ForgotPassword(string email) 
@@ -112,12 +135,12 @@ namespace AlumniService
            var usr = (from u in db.users where u.id == userid select u).FirstOrDefault();
            if (usr != null)
            {
+               //usr.id = userid;
                usr.name = System.Web.HttpUtility.UrlDecode(name);
                usr.email = email;
                usr.password = System.Web.HttpUtility.UrlDecode(password);
                usr.phone = phone;
                usr.nic = nic;
-               db.users.Add(usr);
                db.SaveChanges();
                returnUserData = new ReturnUserData { 
                    isError = "0", errorMessage = null, id = userid.ToString(), name = usr.name, email = usr.email, password = usr.password,
@@ -207,27 +230,7 @@ namespace AlumniService
        }
 
 
-       public List<Driver> GetDrivers(string fromlat, string fromlng)
-       {
-           List<Driver> drivers = new List<Driver>();
-        
-           decimal? lat = Convert.ToDecimal(fromlat);
-           decimal? lng = Convert.ToDecimal(fromlng);
-
-           int? dist= 2;
-           
-           var result = db.GetNearestDrivers(lat,lng,dist);
-           
-           foreach (var r in result)
-           {
-               string did = r.id.ToString();
-               decimal distance = Math.Round((Decimal)r.distance, 2);
-               string ddistance = distance.ToString();
-               drivers.Add(new Driver { id = did, name = r.name, phone = r.phone, distance = ddistance });
-           }
-
-           return drivers;
-       }
+       
 
        public ReturnRideData AddRide(string passengerID, string driverID, string from_destination, string to_destination, string from_lat, string from_lng, string to_lat, string to_lng)
        {
@@ -273,7 +276,9 @@ namespace AlumniService
                status = ride.status.ToString(),
                amount = ride.amount.ToString(),
                review = ride.review,
-               rating = ride.rating.ToString()
+               rating = ride.rating.ToString(),
+               driver_name = "Driver Name",
+               passenger_name = "Passenger Name"
            };
            return returnRideData;
 
@@ -304,7 +309,9 @@ namespace AlumniService
                        status = ride.status.ToString(),
                        amount = ride.amount.ToString(),
                        review = ride.review,
-                       rating = ride.rating.ToString()
+                       rating = ride.rating.ToString(),
+                       driver_name = "Driver Name",
+                       passenger_name = "Passenger Name"
                    };
                }
            }
@@ -328,7 +335,9 @@ namespace AlumniService
                        status = ride.status.ToString(),
                        amount = ride.amount.ToString(),
                        review = ride.review,
-                       rating = ride.rating.ToString()
+                       rating = ride.rating.ToString(),
+                       driver_name = "Driver Name",
+                       passenger_name = "Passenger Name"
                    };
                }
            }
@@ -352,16 +361,15 @@ namespace AlumniService
            if (ride.status == 1)
            {
                var usr = db.users.Where(v => v.id == ride.driverID).FirstOrDefault();
-               usr.is_available = 1;
+               usr.is_available = 0;
                db.SaveChanges();
            
            }
            if (ride.status == 3) 
            {
                var usr = db.users.Where(v => v.id == ride.driverID).FirstOrDefault();
-               usr.is_available = 0;
+               usr.is_available = 1;
                db.SaveChanges();
-           
            
            }
            
@@ -378,7 +386,9 @@ namespace AlumniService
                 status = ride.status.ToString(),
                 amount = ride.amount.ToString(), 
                 review = ride.review, 
-                rating = ride.rating.ToString()
+                rating = ride.rating.ToString(),
+                driver_name = "Driver Name",
+                passenger_name = "Passenger Name"
             };
            return returnRideData;
        }
@@ -391,6 +401,8 @@ namespace AlumniService
           // string replaceWith = "";
           // string reviewString = review.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
 
+           
+
            var ride = (from r in db.ride_detail where r.id == rID select r).FirstOrDefault(); //AND c.ownerId = userid
            ride.status = 2;
            ride.amount = Convert.ToDouble(amount);
@@ -398,8 +410,12 @@ namespace AlumniService
            ride.rating = Convert.ToDouble(rating);
            db.SaveChanges();
 
+          
+           var ratingAverage = db.ride_detail.Where(r => r.driverID == ride.driverID).Average(r => r.rating);
+
            var usr = db.users.Where(v => v.id == ride.driverID).FirstOrDefault();
            usr.is_available = 1;
+          // usr.rating = ratingAverage;
            db.SaveChanges();
            
            returnRideData = new ReturnRideData { 
@@ -415,7 +431,9 @@ namespace AlumniService
                status = ride.status.ToString(),
                amount = ride.amount.ToString(), 
                review = ride.review, 
-               rating = ride.rating.ToString()
+               rating = ride.rating.ToString(),
+               driver_name = "Driver Name",
+               passenger_name = "Passenger Name"
            };
            return returnRideData;
        }
@@ -439,34 +457,142 @@ namespace AlumniService
            //var result = null;
 
            if (userType == "Driver")
-           {              
-                var result = db.ride_detail.Where(r => r.driverID == uid).OrderByDescending(r => r.id);
+           {
+
+               // SELECT ride_detail.*, users.*
+               // FROM ride_detail
+               // INNER JOIN users
+               // ON ride_detail.driverID=users.id AND ride_detail.driverID = 3085
+
+             /*  var restul1 = db.ride_detail.Where(r => r.driverID == uid).Join(db.users, r => r.passengerID, u => u.id, (r, u) => new { r = r, username = u.name })
+                   .OrderByDescending(r => r.r.id);
+               foreach (var s in restul1) 
+               {
+                   rides.Add(new ReturnRideData
+                   {
+                       id = s.r.id.ToString(),
+                       rating = s.r.rating.ToString(),
+                       //driver_name = "",
+                       passenger_name = s.username
+                   });
+               }
+               return rides;
+               */
+
+               var result = db.ride_detail.Where(r => r.driverID == uid).Join(db.users, r => r.passengerID, u => u.id, (r, u) => new { r = r, username = u.name })
+                  .OrderByDescending(r => r.r.id); ; 
+               if (result != null)
+               {
+                   foreach (var r in result)
+                   {
+
+                       rides.Add(new ReturnRideData
+                       {
+                           id = r.r.id.ToString(),
+                           passengerID = r.r.passengerID.ToString(),
+                           driverID = r.r.driverID.ToString(),
+                           from_destination = r.r.from_destination,
+                           to_destination = r.r.to_destination,
+                           from_lat = r.r.from_lat.ToString(),
+                           from_lng = r.r.from_lng.ToString(),
+                           to_lat = r.r.to_lat.ToString(),
+                           to_lng = r.r.to_lng.ToString(),
+                           status = r.r.status.ToString(),
+                           amount = r.r.amount.ToString(),
+                           review = r.r.review,
+                           rating = r.r.rating.ToString(),
+                           driver_name = "",
+                           passenger_name = r.username
+                       });
+                   }
+               }
+               else
+               {
+                   rides = null;
+               }
+
+                /*var result = db.ride_detail.Where(r => r.driverID == uid).OrderByDescending(r => r.id);
                 if (result != null)
                 {
                     foreach (var r in result)
                     {
 
-                        rides.Add(new ReturnRideData { id = r.id.ToString(), passengerID = r.passengerID.ToString(), driverID = r.driverID.ToString(), from_destination = r.from_destination, to_destination = r.to_destination, from_lat = r.from_lat.ToString(), from_lng = r.from_lng.ToString(), to_lat = r.to_lat.ToString(), to_lng = r.to_lng.ToString(), status = r.status.ToString(), amount = r.amount.ToString(), review = r.review, rating = r.rating.ToString() });
+                        rides.Add(new ReturnRideData { 
+                            id = r.id.ToString(), passengerID = r.passengerID.ToString(), 
+                            driverID = r.driverID.ToString(), from_destination = r.from_destination, 
+                            to_destination = r.to_destination, from_lat = r.from_lat.ToString(), 
+                            from_lng = r.from_lng.ToString(), to_lat = r.to_lat.ToString(), 
+                            to_lng = r.to_lng.ToString(), status = r.status.ToString(), 
+                            amount = r.amount.ToString(), review = r.review, 
+                            rating = r.rating.ToString(), 
+                            driver_name = "DriverName", 
+                            passenger_name = "PassengerName" 
+                        });
                     }
                 }
                 else
                 {
                     rides = null;
                 }
+                 */
+
            }
            else if (userType == "Passenger")
            {
-               var result = db.ride_detail.Where(r => r.passengerID == uid).OrderByDescending(r => r.id);
+               var result = db.ride_detail.Where(r => r.passengerID == uid).Join(db.users, r => r.driverID, u => u.id, (r, u) => new { r = r, username = u.name })
+                  .OrderByDescending(r => r.r.id); ;
                if (result != null)
                {
                    foreach (var r in result)
                    {
-                       rides.Add(new ReturnRideData { id = r.id.ToString(), passengerID = r.passengerID.ToString(), driverID = r.driverID.ToString(), from_destination = r.from_destination, to_destination = r.to_destination, from_lat = r.from_lat.ToString(), from_lng = r.from_lng.ToString(), to_lat = r.to_lat.ToString(), to_lng = r.to_lng.ToString(), status = r.status.ToString(), amount = r.amount.ToString(), review = r.review, rating = r.rating.ToString() });
+                       rides.Add(new ReturnRideData
+                       {
+                           id = r.r.id.ToString(),
+                           passengerID = r.r.passengerID.ToString(),
+                           driverID = r.r.driverID.ToString(),
+                           from_destination = r.r.from_destination,
+                           to_destination = r.r.to_destination,
+                           from_lat = r.r.from_lat.ToString(),
+                           from_lng = r.r.from_lng.ToString(),
+                           to_lat = r.r.to_lat.ToString(),
+                           to_lng = r.r.to_lng.ToString(),
+                           status = r.r.status.ToString(),
+                           amount = r.r.amount.ToString(),
+                           review = r.r.review,
+                           rating = r.r.rating.ToString(),
+                           driver_name = r.username,
+                           passenger_name ="", 
+                       });
+                   }
+               }
+               else
+               {
+                   rides = null;
+               }
+
+
+               /*
+                var result = db.ride_detail.Where(r => r.passengerID == uid).OrderByDescending(r => r.id);
+               if (result != null)
+               {
+                   foreach (var r in result)
+                   {
+                       rides.Add(new ReturnRideData { id = r.id.ToString(), passengerID = r.passengerID.ToString(), 
+                           driverID = r.driverID.ToString(), from_destination = r.from_destination,
+                           to_destination = r.to_destination, from_lat = r.from_lat.ToString(), 
+                           from_lng = r.from_lng.ToString(), to_lat = r.to_lat.ToString(), 
+                           to_lng = r.to_lng.ToString(), status = r.status.ToString(), 
+                           amount = r.amount.ToString(), review = r.review, 
+                           rating = r.rating.ToString(), 
+                           driver_name = "DriverName", passenger_name = "PassengerName"
+                       });
                    }
                }
                else{    
                    rides = null;
                }
+                */
+
            }
            else
            {
@@ -475,7 +601,28 @@ namespace AlumniService
                       
            return rides;
             
+       }
 
+       public List<Driver> GetDrivers(string fromlat, string fromlng)
+       {
+           List<Driver> drivers = new List<Driver>();
+
+           decimal? lat = Convert.ToDecimal(fromlat);
+           decimal? lng = Convert.ToDecimal(fromlng);
+
+           int? dist = 50;
+
+           var result = db.GetNearestDrivers(lat, lng, dist);
+
+           foreach (var r in result)
+           {
+               string did = r.id.ToString();
+               decimal distance = Math.Round((Decimal)r.distance, 2);
+               string ddistance = distance.ToString();
+               drivers.Add(new Driver { id = did, name = r.name, phone = r.phone, distance = ddistance, rating= "3.5", image="pic1" });
+           }
+
+           return drivers;
        }
 
     

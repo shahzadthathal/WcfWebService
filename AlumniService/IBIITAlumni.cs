@@ -14,6 +14,11 @@ namespace AlumniService
     public interface IBIITAlumni
     {
 
+        [OperationContract]
+        [WebInvoke(Method = "POST", 
+            UriTemplate = "FileUpload/{fileName}")]
+        void FileUpload(string fileName, Stream fileStream); 
+
 
         [OperationContract]
         [WebInvoke(Method ="GET", 

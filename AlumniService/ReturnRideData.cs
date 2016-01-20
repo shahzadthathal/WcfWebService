@@ -31,5 +31,10 @@ namespace AlumniService
 
         public string rating { get; set; }
 
+        public string driver_name { get; set; }
+
+        public string passenger_name { get; set; }
+
+
     }
 }

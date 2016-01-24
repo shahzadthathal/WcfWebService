@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="193caed4aed74afc9b01c5a69b650bc5" Name="Diagram1">
         <EntityTypeShape EntityType="vehicle_navigationModel.ride_detail" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="vehicle_navigationModel.user" Width="1.5" PointX="0.75" PointY="1" />
-        <EntityTypeShape EntityType="vehicle_navigationModel.vehicle" Width="1.5" PointX="3" PointY="2" />
+        <EntityTypeShape EntityType="vehicle_navigationModel.user" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="vehicle_navigationModel.vehicle" Width="1.5" PointX="3" PointY="2.375" />
         <AssociationConnector Association="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" />
       </Diagram>
     </edmx:Diagrams>

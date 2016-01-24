@@ -14,10 +14,41 @@ namespace AlumniService
     public interface IBIITAlumni
     {
 
-        [OperationContract]
+        
+       /* [OperationContract]
         [WebInvoke(Method = "POST", 
-            UriTemplate = "FileUpload/{fileName}")]
-        void FileUpload(string fileName, Stream fileStream); 
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "SignUp/{name}/{email}/{password}/{phone}/{nic}/{userType}/{image}",
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        ReturnUserData SignUp(String name, String email, String password, String phone, String nic, String userType, String image = null);
+
+        */
+ 
+      /*  [OperationContract]
+        [WebInvoke(
+            Method = "POST", 
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "SignUp")]
+        ReturnUserData SignUp(ReturnUserData user);
+        */
+        /*
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST", 
+            RequestFormat = WebMessageFormat.Json, 
+            UriTemplate = "createUser")]
+        string createUser(string user);
+        */
+
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST",
+            UriTemplate = "/UploadImage", 
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        string UploadImage(Stream stream);
+
 
 
         [OperationContract]
@@ -43,22 +74,38 @@ namespace AlumniService
         bool ForgotPassword(string email);
 
 
-        [OperationContract]
+        /*[OperationContract]
         [WebInvoke(Method = "GET",
-            UriTemplate = "/Register/{name}/{email}/{password}/{phone}/{nic}/{userType}",
+            UriTemplate = "/Register/{name}/{email}/{password}/{phone}/{nic}/{userType}/{image}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        ReturnUserData Register(string name, string email, string password, string phone, string nic, string userType);
-
+        ReturnUserData Register(string name, string email, string password, string phone, string nic, string userType, string image);
+        */
         
-        [OperationContract]
+        /*[OperationContract]
         [WebInvoke(Method = "GET",
             UriTemplate = "/UpdateProfile/{userid}/{name}/{email}/{password}/{phone}/{nic}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        ReturnUserData UpdateProfile(string userid, string name, string email, string password, string phone, string nic);
+        ReturnUserData UpdateProfile(string userid, string name, string email, string password, string phone, string nic);*/
 
-        
+
+        [OperationContract]
+        [WebInvoke(
+                    Method = "POST",
+                    RequestFormat = WebMessageFormat.Json,
+                    ResponseFormat = WebMessageFormat.Json,
+                    UriTemplate = "/Signup"
+            )]
+        ReturnUserData SignUp(ReturnUserData user);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/UpdateProfile",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnUserData UpdateProfile(ReturnUserData returnUserData);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -119,17 +166,26 @@ namespace AlumniService
             ResponseFormat = WebMessageFormat.Json)]
         ReturnRideData ChangeRideStatus(string rideId, string userId, string status);
 
-        
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/FinishRide",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        ReturnRideData FinishRide(ReturnRideData postRideData);
+
+
+        /*
         [OperationContract]
         [WebInvoke(Method = "GET",
             UriTemplate = "/FinishRide/{rideId}/{amount}/{review}/{rating}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         ReturnRideData FinishRide(string rideId, string amount, string review, string rating);
+         */ 
 
-        
-
-
+       
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -140,15 +196,9 @@ namespace AlumniService
 
 
 
-      
 
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-            UriTemplate = "/SignUp",
-            RequestFormat = WebMessageFormat.Json, 
-            ResponseFormat = WebMessageFormat.Json)]
-        bool SignUp(user user);
-        
+       // bool Signup(ReturnUserData user);
+
     }
 
 }

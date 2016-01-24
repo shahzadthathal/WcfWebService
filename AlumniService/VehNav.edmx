@@ -47,6 +47,9 @@
           <Property Name="is_vehicle_added" Type="int" />
           <Property Name="reg_id" Type="nvarchar" MaxLength="255" />
           <Property Name="is_available" Type="int" />
+          <Property Name="current_lat" Type="float" />
+          <Property Name="current_lgn" Type="float" />
+          <Property Name="image" Type="varchar" MaxLength="4000" />
         </EntityType>
         <EntityType Name="vehicle">
           <Key>
@@ -164,6 +167,9 @@
           <Property Name="is_vehicle_added" Type="Int32" />
           <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="is_available" Type="Int32" />
+          <Property Name="current_lat" Type="Double" />
+          <Property Name="current_lgn" Type="Double" />
+          <Property Name="image" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="vehicles" Relationship="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" FromRole="user" ToRole="vehicle" />
         </EntityType>
         <EntityType Name="vehicle">
@@ -245,6 +251,9 @@
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="vehicle_navigationModel.user">
               <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="current_lgn" ColumnName="current_lgn" />
+                <ScalarProperty Name="current_lat" ColumnName="current_lat" />
                 <ScalarProperty Name="is_available" ColumnName="is_available" />
                 <ScalarProperty Name="reg_id" ColumnName="reg_id" />
                 <ScalarProperty Name="is_vehicle_added" ColumnName="is_vehicle_added" />
@@ -276,7 +285,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

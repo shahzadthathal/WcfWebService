@@ -35,6 +35,9 @@ namespace AlumniService
         public Nullable<int> is_vehicle_added { get; set; }
         public string reg_id { get; set; }
         public Nullable<int> is_available { get; set; }
+        public Nullable<double> current_lat { get; set; }
+        public Nullable<double> current_lgn { get; set; }
+        public string image { get; set; }
     
         public virtual ICollection<vehicle> vehicles { get; set; }
     }

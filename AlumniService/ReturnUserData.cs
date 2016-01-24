@@ -28,6 +28,8 @@ namespace AlumniService
 
         public string errorMessage { get; set; }
         public string nic { get; set; }
+
+        public string image { get; set; }
     
     }
 }

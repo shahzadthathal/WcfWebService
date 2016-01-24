@@ -20,26 +20,99 @@ namespace AlumniService
         vehicle_navigationEntities db = new vehicle_navigationEntities();
 
 
+        public ReturnUserData SignUp(ReturnUserData user)
+        {  
+            user usr = new user();
+            usr.name = System.Web.HttpUtility.UrlDecode(user.name);
+            usr.email = user.email;
+            usr.password = System.Web.HttpUtility.UrlDecode(user.password);
+            usr.phone = user.phone;
+            usr.nic = user.nic;
+            usr.userType = user.userType;
+            usr.is_login = 1;
+            usr.is_vehicle_added = 0;
+            usr.is_available = 0;
+            usr.image = user.image;
 
-        public void FileUpload(string fileName, Stream fileStream)
-        {
-            string path = "C:\\Users\\shahzad\\Documents\\Visual Studio 2013\\Projects\\AlumniService";
-            FileStream fileToupload = new FileStream(path + fileName, FileMode.Create);
-
-            byte[] bytearray = new byte[10000];
-            int bytesRead, totalBytesRead = 0;
-            do
+            db.users.Add(usr);
+            db.SaveChanges();
+            string uid = usr.id.ToString();
+            ReturnUserData returnUserData = new ReturnUserData
             {
-                bytesRead = fileStream.Read(bytearray, 0, bytearray.Length);
-                totalBytesRead += bytesRead;
-            } while (bytesRead > 0);
+                isError = "0",
+                errorMessage = null,
+                id = uid,
+                name = usr.name,
+                email = usr.email,
+                password = usr.password,
+                phone = usr.phone,
+                userType = usr.userType,
+                street = usr.street,
+                city = usr.city,
+                country = usr.country,
+                lat = "333.5555",
+                lng = "79.5554",
+                is_login = usr.is_login.ToString(),
+                is_vehicle_added = usr.is_vehicle_added.ToString(),
+                reg_id = "asdfa1234asdfdf",
+                nic = usr.nic
+            };
+            return returnUserData;   
+        }
 
-            fileToupload.Write(bytearray, 0, bytearray.Length);
-            fileToupload.Close();
-            fileToupload.Dispose();
 
-        }      
+        public ReturnUserData UpdateProfile(ReturnUserData user)
+        {
+            ReturnUserData returnUserData = new ReturnUserData();
 
+            int userid = Convert.ToInt32(user.id);
+            var usr = (from u in db.users where u.id == userid select u).FirstOrDefault();
+            if (usr != null)
+            {
+                //usr.id = userid;
+                usr.name = System.Web.HttpUtility.UrlDecode(user.name);
+                usr.email = user.email;
+                usr.password = System.Web.HttpUtility.UrlDecode(user.password);
+                usr.phone = user.phone;
+                usr.nic = user.nic;
+                usr.image = user.image;
+                db.SaveChanges();
+                returnUserData = new ReturnUserData
+                {
+                    isError = "0",
+                    errorMessage = null,
+                    id = userid.ToString(),
+                    name = usr.name,
+                    email = usr.email,
+                    password = usr.password,
+                    phone = usr.phone,
+                    userType = usr.userType,
+                    street = usr.street,
+                    city = usr.city,
+                    country = usr.country,
+                    lat = usr.lat.ToString(),
+                    lng = usr.lng.ToString(),
+                    is_login = usr.is_login.ToString(),
+                    is_vehicle_added = usr.is_vehicle_added.ToString(),
+                    reg_id = "asdfa1234asdfdf",
+                    nic = usr.nic
+                };
+            }
+            return returnUserData;
+        }
+
+
+        public string UploadImage(Stream stream)
+        {
+            byte[] buffer = new byte[10000];
+            stream.Read(buffer, 0, 10000);
+            FileStream f = new FileStream(@"C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\FileUpload\sample.jpg", FileMode.OpenOrCreate);
+            f.Write(buffer, 0, buffer.Length);
+            f.Close();
+            stream.Close();
+            return "Recieved the image on server";
+        }
+        
 
 
         public bool ForgotPassword(string email) 
@@ -101,7 +174,7 @@ namespace AlumniService
        }
 
 
-       public ReturnUserData Register(string name, string email, string password, string phone, string nic, string userType)
+       /*public ReturnUserData Register(string name, string email, string password, string phone, string nic, string userType, string image)
        {
            user usr = new user();
            usr.name = System.Web.HttpUtility.UrlDecode(name);
@@ -113,6 +186,7 @@ namespace AlumniService
            usr.is_login = 1;
            usr.is_vehicle_added = 0;
            usr.is_available = 0;
+           usr.image = image;
            db.users.Add(usr);
            db.SaveChanges();
            string uid = usr.id.ToString();
@@ -124,7 +198,7 @@ namespace AlumniService
            };
            return returnUserData;
            // return usr;
-       }
+       }*/
 
        public ReturnUserData UpdateProfile(string usrid, string name, string email, string password, string phone, string nic)
        {
@@ -314,6 +388,10 @@ namespace AlumniService
                        passenger_name = "Passenger Name"
                    };
                }
+               else
+               {
+                   returnRideData = null;
+               }
            }
            else if (userType == "Driver")
            {
@@ -339,6 +417,11 @@ namespace AlumniService
                        driver_name = "Driver Name",
                        passenger_name = "Passenger Name"
                    };
+               }
+
+               else
+               {
+                   returnRideData = null;
                }
            }
            
@@ -393,15 +476,54 @@ namespace AlumniService
            return returnRideData;
        }
 
+       public ReturnRideData FinishRide(ReturnRideData postRideData)
+       {
+           ReturnRideData returnRideData = new ReturnRideData();
+           int rID = Convert.ToInt32(postRideData.id); //rideid
+
+
+           var ride = (from r in db.ride_detail where r.id == rID select r).FirstOrDefault(); //AND c.ownerId = userid
+           ride.status = 2;
+           ride.amount = Convert.ToDouble(postRideData.amount);
+           ride.review = System.Web.HttpUtility.UrlDecode(postRideData.review);
+           ride.rating = Convert.ToDouble(postRideData.rating);
+           db.SaveChanges();
+
+
+           var ratingAverage = db.ride_detail.Where(r => r.driverID == ride.driverID).Average(r => r.rating);
+
+           var usr = db.users.Where(v => v.id == ride.driverID).FirstOrDefault();
+           usr.is_available = 1;
+           // usr.rating = ratingAverage;
+           db.SaveChanges();
+
+           returnRideData = new ReturnRideData
+           {
+               id = ride.id.ToString(),
+               passengerID = ride.passengerID.ToString(),
+               driverID = ride.driverID.ToString(),
+               from_destination = ride.from_destination,
+               to_destination = ride.to_destination,
+               from_lat = ride.from_lat.ToString(),
+               from_lng = ride.from_lng.ToString(),
+               to_lat = ride.to_lat.ToString(),
+               to_lng = ride.to_lng.ToString(),
+               status = ride.status.ToString(),
+               amount = ride.amount.ToString(),
+               review = ride.review,
+               rating = ride.rating.ToString(),
+               driver_name = "Driver Name",
+               passenger_name = "Passenger Name"
+           };
+           return returnRideData;
+       }
+
+        /*
        public ReturnRideData FinishRide(string rideId, string amount, string review, string rating) 
        {
            ReturnRideData returnRideData = new ReturnRideData();
            int rID = Convert.ToInt32(rideId); //rideid
 
-          // string replaceWith = "";
-          // string reviewString = review.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
-
-           
 
            var ride = (from r in db.ride_detail where r.id == rID select r).FirstOrDefault(); //AND c.ownerId = userid
            ride.status = 2;
@@ -437,7 +559,7 @@ namespace AlumniService
            };
            return returnRideData;
        }
-        
+        */
 
 
        public List<ReturnRideData> GetAllRides(string userId, string userType)
@@ -626,10 +748,6 @@ namespace AlumniService
        }
 
     
-        public bool SignUp(user user)
-        {
-           return true;
-        }
 
         
     }

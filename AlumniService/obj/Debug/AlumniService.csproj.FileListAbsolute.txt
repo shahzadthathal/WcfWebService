@@ -9,3 +9,13 @@ C:\Users\LEO21\Desktop\AlumniService\AlumniService\bin\AlumniService.pdb
 C:\Users\LEO21\Desktop\AlumniService\AlumniService\obj\Debug\AlumniService.csprojResolveAssemblyReference.cache
 C:\Users\LEO21\Desktop\AlumniService\AlumniService\obj\Debug\AlumniService.dll
 C:\Users\LEO21\Desktop\AlumniService\AlumniService\obj\Debug\AlumniService.pdb
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\AlumniService.dll.config
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\AlumniService.dll
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\AlumniService.pdb
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\EntityFramework.dll
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\EntityFramework.SqlServer.dll
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\EntityFramework.xml
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\bin\EntityFramework.SqlServer.xml
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\obj\Debug\AlumniService.dll
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\obj\Debug\AlumniService.pdb
+C:\Users\shahzad\Documents\Visual Studio 2013\Projects\AlumniService\AlumniService\obj\Debug\AlumniService.csprojResolveAssemblyReference.cache

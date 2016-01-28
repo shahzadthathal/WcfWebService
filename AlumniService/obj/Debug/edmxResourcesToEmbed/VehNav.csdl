@@ -77,7 +77,7 @@
     <Property Name="is_available" Type="Int32" />
     <Property Name="current_lat" Type="Double" />
     <Property Name="current_lgn" Type="Double" />
-    <Property Name="image" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="vehicles" Relationship="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" FromRole="user" ToRole="vehicle" />
   </EntityType>
   <EntityType Name="vehicle">

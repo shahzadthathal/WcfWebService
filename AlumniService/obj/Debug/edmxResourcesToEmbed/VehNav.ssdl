@@ -44,7 +44,7 @@
     <Property Name="is_available" Type="int" />
     <Property Name="current_lat" Type="float" />
     <Property Name="current_lgn" Type="float" />
-    <Property Name="image" Type="varchar" MaxLength="4000" />
+    <Property Name="image" Type="text" />
   </EntityType>
   <EntityType Name="vehicle">
     <Key>

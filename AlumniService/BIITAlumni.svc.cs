@@ -23,16 +23,16 @@ namespace AlumniService
         public ReturnUserData SignUp(ReturnUserData user)
         {  
             user usr = new user();
-            usr.name = System.Web.HttpUtility.UrlDecode(user.name);
+            usr.name = user.name;
             usr.email = user.email;
-            usr.password = System.Web.HttpUtility.UrlDecode(user.password);
+            usr.password = user.password;
             usr.phone = user.phone;
             usr.nic = user.nic;
             usr.userType = user.userType;
             usr.is_login = 1;
             usr.is_vehicle_added = 0;
             usr.is_available = 0;
-            usr.image = user.image;
+            usr.image = System.Web.HttpUtility.UrlDecode(user.image);
 
             db.users.Add(usr);
             db.SaveChanges();
@@ -200,7 +200,7 @@ namespace AlumniService
            // return usr;
        }*/
 
-       public ReturnUserData UpdateProfile(string usrid, string name, string email, string password, string phone, string nic)
+       /*public ReturnUserData UpdateProfile(string usrid, string name, string email, string password, string phone, string nic)
        {
            
            ReturnUserData returnUserData = new ReturnUserData();
@@ -226,7 +226,7 @@ namespace AlumniService
           
            return returnUserData;
            // return usr;
-       }
+       }*/
 
        public ReturnUserData SaveAddress(string id, string street, string city, string country, string lat, string lng)
        {
@@ -602,7 +602,7 @@ namespace AlumniService
                */
 
                var result = db.ride_detail.Where(r => r.driverID == uid).Join(db.users, r => r.passengerID, u => u.id, (r, u) => new { r = r, username = u.name })
-                  .OrderByDescending(r => r.r.id); ; 
+                  .OrderByDescending(r => r.r.id); 
                if (result != null)
                {
                    foreach (var r in result)
@@ -662,7 +662,7 @@ namespace AlumniService
            else if (userType == "Passenger")
            {
                var result = db.ride_detail.Where(r => r.passengerID == uid).Join(db.users, r => r.driverID, u => u.id, (r, u) => new { r = r, username = u.name })
-                  .OrderByDescending(r => r.r.id); ;
+                  .OrderByDescending(r => r.r.id);
                if (result != null)
                {
                    foreach (var r in result)

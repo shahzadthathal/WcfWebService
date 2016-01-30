@@ -30,5 +30,7 @@ namespace AlumniService
         public string reg_id { get; set; }
         public Nullable<int> is_available { get; set; }
         public Nullable<double> distance { get; set; }
+
+        public Nullable<double> avg_rating { get; set; }
     }
 }

@@ -45,6 +45,7 @@
     <Property Name="current_lat" Type="float" />
     <Property Name="current_lgn" Type="float" />
     <Property Name="image" Type="text" />
+    <Property Name="avg_rating" Type="float" />
   </EntityType>
   <EntityType Name="vehicle">
     <Key>

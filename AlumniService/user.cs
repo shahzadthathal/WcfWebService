@@ -38,6 +38,7 @@ namespace AlumniService
         public Nullable<double> current_lat { get; set; }
         public Nullable<double> current_lgn { get; set; }
         public string image { get; set; }
+        public Nullable<double> avg_rating { get; set; }
     
         public virtual ICollection<vehicle> vehicles { get; set; }
     }

@@ -50,6 +50,7 @@
     <EntitySetMapping Name="users">
       <EntityTypeMapping TypeName="vehicle_navigationModel.user">
         <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="avg_rating" ColumnName="avg_rating" />
           <ScalarProperty Name="image" ColumnName="image" />
           <ScalarProperty Name="current_lgn" ColumnName="current_lgn" />
           <ScalarProperty Name="current_lat" ColumnName="current_lat" />

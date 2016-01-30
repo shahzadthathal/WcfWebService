@@ -42,6 +42,10 @@ namespace AlumniService
         */
 
         [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "/AddRating/{userid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string AddRating(string userid);
+
+        [OperationContract]
         [WebInvoke(
             Method = "POST",
             UriTemplate = "/UploadImage", 

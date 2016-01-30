@@ -50,6 +50,7 @@
           <Property Name="current_lat" Type="float" />
           <Property Name="current_lgn" Type="float" />
           <Property Name="image" Type="text" />
+          <Property Name="avg_rating" Type="float" />
         </EntityType>
         <EntityType Name="vehicle">
           <Key>
@@ -170,6 +171,7 @@
           <Property Name="current_lat" Type="Double" />
           <Property Name="current_lgn" Type="Double" />
           <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="avg_rating" Type="Double" />
           <NavigationProperty Name="vehicles" Relationship="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" FromRole="user" ToRole="vehicle" />
         </EntityType>
         <EntityType Name="vehicle">
@@ -251,6 +253,7 @@
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="vehicle_navigationModel.user">
               <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="avg_rating" ColumnName="avg_rating" />
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="current_lgn" ColumnName="current_lgn" />
                 <ScalarProperty Name="current_lat" ColumnName="current_lat" />

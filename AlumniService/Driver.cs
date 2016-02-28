@@ -18,13 +18,22 @@ namespace AlumniService
         */
 
          public string id { get; set; }
+        
          public string name { get; set; }
+        
          public string phone { get; set; }
+        
          public string distance { get; set; }
 
          public string rating { get; set; }
+
          public string image { get; set; }
 
+         public string lat { get; set; }
+
+         public string lng { get; set; }
+
+         public string isAvailable { get; set; }
 
 
     }

@@ -779,7 +779,7 @@ namespace AlumniService
            decimal? lat = Convert.ToDecimal(fromlat);
            decimal? lng = Convert.ToDecimal(fromlng);
 
-           int? dist = 50;
+           int? dist = 5;
 
            var result = db.GetNearestDrivers(lat, lng, dist);
 
@@ -795,7 +795,7 @@ namespace AlumniService
                    drating = r.avg_rating.ToString();
                }
 
-               drivers.Add(new Driver { id = did, name = r.name, phone = r.phone, distance = ddistance, rating = drating, image = "pic1" });
+               drivers.Add(new Driver { id = did, name = r.name, phone = r.phone, distance = ddistance, rating = drating, image = "pic1", lat = r.lat.ToString(), lng = r.lng.ToString(), isAvailable = r.is_available.ToString() });
            }
 
            return drivers;

@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="193caed4aed74afc9b01c5a69b650bc5" Name="Diagram1">
-        <EntityTypeShape EntityType="vehicle_navigationModel.ride_detail" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="vehicle_navigationModel.user" Width="1.5" PointX="0.75" PointY="1.125" />
-        <EntityTypeShape EntityType="vehicle_navigationModel.vehicle" Width="1.5" PointX="3" PointY="2.375" />
-        <AssociationConnector Association="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" />
+      <Diagram DiagramId="4d338ececa32447ba4d7997b02055f6c" Name="Diagram1">
+        <EntityTypeShape EntityType="vehicle_navigationModel.ride_detail" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vehicle_navigationModel.user" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="vehicle_navigationModel.vehicle" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <AssociationConnector Association="vehicle_navigationModel.FK__vehicle__userId__1273C1CD" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
